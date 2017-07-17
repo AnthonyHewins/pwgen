@@ -23,16 +23,25 @@ int whatInt(char *c) {
 }
 
 int main(int argc, char *argv[]) {
-	if (argc != 2) {
+	if (argc != 2 && argc != 3) {
 		printf("Not enough args or too many args\n");
 		return 0;
 	}
 
 	char alphabet[]="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+-*!@$%&";
-	
+	int n = sizeof(alphabet) - 1;
+	int count = 1;
+
+	if (argv[1][0] == '-')
+		if (argv[1][1] == 'a') {
+			count = 2;
+			n -= 9;
+		}
+
 	char *temp;
 	int accumulator = 0;
-	for (temp=argv[1];*temp!='\0';temp++) {
+
+	for (temp=argv[count];*temp!='\0';temp++) {
 		int j = whatInt(temp);
 		if(j == -1)
 			continue;
@@ -48,7 +57,6 @@ int main(int argc, char *argv[]) {
 	
 	time_t t;
 	srand((unsigned) time(&t));
-	int n = sizeof(alphabet) - 1;
 
 	while(accumulator > 0) {
 		printf("%c", alphabet[rand() % n]);
